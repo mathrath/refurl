@@ -10,20 +10,26 @@ server.connection({
 });
 
 server.route({
-  method: 'POST',
-  path: '/refurl/links',
-  handler: links.postHandler,
-});
-
-server.route({
   method: 'GET',
   path: '/refurl/links',
   handler: links.getHandler,
 });
 
 server.route({
-  method: 'DELETE',
+  method: 'POST',
   path: '/refurl/links',
+  handler: links.postHandler,
+});
+
+server.route({
+  method: 'PUT',
+  path: '/refurl/links/{id}',
+  handler: links.putHandler,
+});
+
+server.route({
+  method: 'DELETE',
+  path: '/refurl/links/{id}',
   handler: links.deleteHandler,
 });
 

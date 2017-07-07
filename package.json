@@ -9,6 +9,8 @@
   "author": "Matt Rathbun",
   "license": "ISC",
   "dependencies": {
-    "hapi": "^16.4.3"
+    "hapi": "^16.4.3",
+    "lowdb": "^0.16.2",
+    "uuid": "^3.1.0"
   }
 }
