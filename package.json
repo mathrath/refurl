@@ -8,5 +8,7 @@
   },
   "author": "Matt Rathbun",
   "license": "ISC",
-  "dependencies": {}
+  "dependencies": {
+    "hapi": "^16.4.3"
+  }
 }
