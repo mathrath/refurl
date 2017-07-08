@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "bootstrap-datepicker": "^1.7.1",
     "clipboard-button": "^1.2.0",
     "hapi": "^16.4.3",
     "inert": "^4.2.0",

@@ -42,6 +42,14 @@ server.route({
   }
 });
 
+server.route({
+  method: 'GET',
+  path: '/refurl/create',
+  handler: (request, reply) => {
+    reply.file('./templates/create.html');
+  }
+});
+
 // Set up components
 server.route({
   method: 'GET',
@@ -59,6 +67,36 @@ server.route({
   handler: {
     directory: {
       path: __dirname + '/node_modules/jquery/dist'
+    }
+  }
+});
+
+server.route({
+  method: 'GET',
+  path: '/refurl/components/jqueryfiletree/{param*}',
+  handler: {
+    directory: {
+      path: __dirname + '/node_modules/jqueryfiletree/dist'
+    }
+  }
+});
+
+server.route({
+  method: 'GET',
+  path: '/refurl/components/clipboard-button/{param*}',
+  handler: {
+    file: {
+      path: __dirname + '/node_modules/clipboard-button/clipboard-button.js'
+    }
+  }
+});
+
+server.route({
+  method: 'GET',
+  path: '/refurl/components/bootstrap-datepicker/{param*}',
+  handler: {
+    directory: {
+      path: __dirname + '/node_modules/bootstrap-datepicker/dist'
     }
   }
 });
