@@ -9,7 +9,12 @@
   "author": "Matt Rathbun",
   "license": "ISC",
   "dependencies": {
+    "bootstrap": "^3.3.7",
+    "clipboard-button": "^1.2.0",
     "hapi": "^16.4.3",
+    "inert": "^4.2.0",
+    "jquery": "^3.2.1",
+    "jqueryfiletree": "^2.1.4",
     "lowdb": "^0.16.2",
     "uuid": "^3.1.0"
   }

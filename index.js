@@ -8,6 +8,7 @@ const server = new hapi.Server();
 server.connection({
   port: process.env.PORT || 8000,
 });
+server.register(require('inert'));
 
 server.route({
   method: 'GET',
@@ -32,6 +33,36 @@ server.route({
   path: '/refurl/api/links/{id}',
   handler: links.deleteHandler,
 });
+
+server.route({
+  method: 'GET',
+  path: '/refurl/manage',
+  handler: (request, reply) => {
+    reply.file('./templates/manage.html');
+  }
+});
+
+// Set up components
+server.route({
+  method: 'GET',
+  path: '/refurl/components/bootstrap/{param*}',
+  handler: {
+    directory: {
+      path: __dirname + '/node_modules/bootstrap/dist'
+    }
+  }
+});
+
+server.route({
+  method: 'GET',
+  path: '/refurl/components/jquery/{param*}',
+  handler: {
+    directory: {
+      path: __dirname + '/node_modules/jquery/dist'
+    }
+  }
+});
+
 
 server.start(err => {
   if (err) {
