@@ -11,25 +11,25 @@ server.connection({
 
 server.route({
   method: 'GET',
-  path: '/refurl/links',
+  path: '/refurl/api/links',
   handler: links.getHandler,
 });
 
 server.route({
   method: 'POST',
-  path: '/refurl/links',
+  path: '/refurl/api/links',
   handler: links.postHandler,
 });
 
 server.route({
   method: 'PUT',
-  path: '/refurl/links/{id}',
+  path: '/refurl/api/links/{id}',
   handler: links.putHandler,
 });
 
 server.route({
   method: 'DELETE',
-  path: '/refurl/links/{id}',
+  path: '/refurl/api/links/{id}',
   handler: links.deleteHandler,
 });
 
