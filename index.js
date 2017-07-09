@@ -4,6 +4,7 @@ const hapi = require('hapi');
 
 const config = require('./lib/config');
 const links = require('./lib/links');
+const download = require('./lib/download');
 
 const server = new hapi.Server();
 server.connection({
@@ -76,15 +77,8 @@ server.route({
 
 server.route({
   method: 'GET',
-  path: '/refurl/download',
-  handler: (request, reply) => {
-    reply.view('download', {
-      key: 'key',
-      name: 'name',
-      path: 'path',
-      isDir: false,
-    });
-  }
+  path: '/{key}',
+  handler: download.pageHandler,
 });
 
 // Set up components
