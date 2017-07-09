@@ -18,9 +18,12 @@ $(document).ready( function() {
     script: 'api/jqueryfiletree-connector',
     multiFolder: false,
     selectFolders: true
-  },
-  function(file){
-    $("#path-field").val(file);
+  }).on('filetreeclicked filetreeexpand filetreecollapse', (e, data) => {
+    $('#path-field').val(data.rel);
+
+    // jqueryfiletree doesn't select directories, so I'll do it myself
+    $('li.selected').removeClass('selected');
+    data.li.addClass('selected');
   });
 
   var today = addDays(new Date(), 7);

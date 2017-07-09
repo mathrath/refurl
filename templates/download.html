@@ -25,26 +25,20 @@ function init(){
 
 
     $("#filelist").fileTree({
-      script: 'refurl/jqueryfiletree-connector',
+      script: 'refurl/api/jqueryfiletree-connector',
       multiFolder: false,
       root: '{{path}}',
       key: '{{key}}'
-    },
-    function(file){
-      var button = $("#download-button");
-      if (file){
-        var subpath = file.replace("{{path}}", "");
-        button.attr("href", "{{key}}/download?subpath=" + subpath);
-        button.removeClass("disabled");
-        $("#button-text").text("Download");
-        getSize("{{key}}", subpath);
-      }
-      else {
-        button.attr("href", "#");
-        button.addClass("disabled");
-        $("#button-text").text("Select a file...");
-        $("#size").text("");
-      }
+    }).on('filetreeclicked filetreeexpand filetreecollapse', (e, data) => {
+      // jqueryfiletree doesn't select directories, so I'll do it myself
+      $('li.selected').removeClass('selected');
+      data.li.addClass('selected');
+
+      const button = $('#download-button');
+      button.attr('href', `{{key}}/download?subpath=${data.rel}`);
+      button.removeClass("disabled");
+      $("#button-text").text("Download");
+      getSize("{{key}}", data.rel);
     });
   }
   else {
