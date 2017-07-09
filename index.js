@@ -8,7 +8,20 @@ const server = new hapi.Server();
 server.connection({
   port: process.env.PORT || 8000,
 });
+
 server.register(require('inert'));
+
+server.register(require('vision'), err => {
+  if (err) throw err;
+
+  server.views({
+    engines: {
+      html: require('handlebars')
+    },
+    relativeTo: __dirname,
+    path: 'templates'
+  });
+});
 
 server.route({
   method: 'GET',
@@ -34,6 +47,7 @@ server.route({
   handler: links.deleteHandler,
 });
 
+// Management pages
 server.route({
   method: 'GET',
   path: '/refurl/manage',
@@ -46,7 +60,22 @@ server.route({
   method: 'GET',
   path: '/refurl/create',
   handler: (request, reply) => {
-    reply.file('./templates/create.html');
+    reply.view('create', {
+      hash: 'hash',
+    });
+  }
+});
+
+server.route({
+  method: 'GET',
+  path: '/refurl/download',
+  handler: (request, reply) => {
+    reply.view('download', {
+      key: 'key',
+      name: 'name',
+      path: 'path',
+      isDir: false,
+    });
   }
 });
 

@@ -13,8 +13,8 @@
 $(init);
 
 function init(){
-  var key = "<%=@key%>";
-  var isDir = <%=@isDir%>;
+  var key = "{{key}}";
+  var isDir = {{isDir}};
 
   if (isDir){
     $("#filelist-container").show();
@@ -27,17 +27,17 @@ function init(){
     $("#filelist").fileTree({
       script: 'refurl/jqueryfiletree-connector',
       multiFolder: false,
-      root: '<%= @path %>',
-      key: '<%= @key %>'
+      root: '{{path}}',
+      key: '{{key}}'
     },
     function(file){
       var button = $("#download-button");
       if (file){
-        var subpath = file.replace("<%= @path %>", "");
-        button.attr("href", "<%= @key %>/download?subpath=" + subpath);
+        var subpath = file.replace("{{path}}", "");
+        button.attr("href", "{{key}}/download?subpath=" + subpath);
         button.removeClass("disabled");
         $("#button-text").text("Download");
-        getSize("<%=@key%>", subpath);
+        getSize("{{key}}", subpath);
       }
       else {
         button.attr("href", "#");
@@ -71,13 +71,13 @@ function getSize(key, subpath){
 
   <body style="padding-top:100px; background-color: #eee; text-align:center">
     <div style="width:400px; display:inline-block" class="container">
-      <h2 style="text-align:center"><%= @name %></h2>
+      <h2 style="text-align:center">{{name}}</h2>
       <br>
       <div id="filelist-container" style="max-height:500px; overflow:scroll; text-align: left;" class="well" hidden>
         <div id="filelist">
         </div>
       </div>
-      <a id="download-button" class="button btn btn-lg btn-primary btn-block" href="<%=@key%>/download"><span id="button-text">Download</span><span id="size"></span></a>
+      <a id="download-button" class="button btn btn-lg btn-primary btn-block" href="{{key}}/download"><span id="button-text">Download</span><span id="size"></span></a>
     </div>
   </body>
 
