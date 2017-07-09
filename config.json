@@ -1,0 +1,8 @@
+{
+  "rootPath": ".",
+  "baseURL": "myurl.com",
+  "auth": {
+    "user": "admin",
+    "password": "changeme"
+  }
+}

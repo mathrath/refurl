@@ -2,6 +2,7 @@
 
 const hapi = require('hapi');
 
+const config = require('./lib/config');
 const links = require('./lib/links');
 
 const server = new hapi.Server();
@@ -68,7 +69,7 @@ server.route({
   handler: (request, reply) => {
     reply.view('create', {
       hash: 'hash',
-      baseURL: 'myurl.com',
+      baseURL: config.baseURL,
     });
   }
 });
