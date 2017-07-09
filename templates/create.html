@@ -15,7 +15,7 @@
 
 $(document).ready( function() {
   $("#filelist-container").fileTree({
-    script: 'jqueryfiletree-connector',
+    script: 'api/jqueryfiletree-connector',
     multiFolder: false,
     selectFolders: true
   },
@@ -58,22 +58,16 @@ function createLink(){
     "expireVisits" : expireVisits
   }
 
-  $.post("api/create", payload, function(data){
-    console.log(data);
-    var result = JSON.parse(data);
-    if (result.status == "ok"){
-      //window.location.href = result.key;
-      $("#error-message").hide();
-      $("#success-message").show();
-      showURLBox(result.key, result.url);
-      $("#error-message").text("");
-    }
-    else {
-      $("#success-message").hide();
-      $("#error-message").show();
-      $("#error-message").text(result.error);
-      $("#success-message").html("");
-    }
+  $.post("api/links", payload).done(function(result) {
+    $("#error-message").hide();
+    $("#success-message").show();
+    showURLBox(result.key, result.url);
+    $("#error-message").text("");
+  }).fail(function(result) {
+    $("#success-message").hide();
+    $("#error-message").show();
+    $("#error-message").text(JSON.stringify(result));
+    $("#success-message").html("");
   });
 }
 

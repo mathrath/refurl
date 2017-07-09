@@ -47,6 +47,12 @@ server.route({
   handler: links.deleteHandler,
 });
 
+server.route({
+  method: 'POST',
+  path: '/refurl/api/jqueryfiletree-connector',
+  handler: require('./lib/jqueryfiletree-connector')
+});
+
 // Management pages
 server.route({
   method: 'GET',
