@@ -81,6 +81,12 @@ server.route({
   handler: download.pageHandler,
 });
 
+server.route({
+  method: 'GET',
+  path: '/{key}/download',
+  handler: download.downloadHandler,
+});
+
 // Set up components
 server.route({
   method: 'GET',
