@@ -61,7 +61,7 @@ function createLink(){
   $.post("api/links", payload).done(function(result) {
     $("#error-message").hide();
     $("#success-message").show();
-    showURLBox(result.key, result.url);
+    showURLBox(result.key, `{{baseURL}}/${result.key}`);
     $("#error-message").text("");
   }).fail(function(result) {
     $("#success-message").hide();

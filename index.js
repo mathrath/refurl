@@ -68,6 +68,7 @@ server.route({
   handler: (request, reply) => {
     reply.view('create', {
       hash: 'hash',
+      baseURL: 'myurl.com',
     });
   }
 });
