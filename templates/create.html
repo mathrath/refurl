@@ -35,8 +35,8 @@ $(document).ready( function() {
 });
 
 function generateKey(){
-  $.ajax({url : 'api/hash'}).done(function(data){
-    $('#key-field').val(data);
+  $.ajax({url : 'api/key'}).done(function(result){
+    $('#key-field').val(result.key);
   });
 }
 
@@ -134,7 +134,7 @@ function showURLBox(key, url){
         <br>
         <label class="form-label"><h4>Key</h4></label>
         <div class="input-group">
-          <input id="key-field" type="text" class="form-control" name="key" value="{{hash}}">
+          <input id="key-field" type="text" class="form-control" name="key" value="{{key}}">
           <div class="input-group-btn">
             <button type="button" class="btn btn-primary" onclick="generateKey()">
               <span class="glyphicon glyphicon-refresh"></span>

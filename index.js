@@ -6,6 +6,7 @@ const config = require('./lib/config');
 const links = require('./lib/links');
 const download = require('./lib/download');
 const filesize = require('./lib/filesize');
+const generateKey = require('./lib/utils/generateKey');
 
 const server = new hapi.Server();
 server.connection({
@@ -56,6 +57,12 @@ server.route({
   handler: require('./lib/jqueryfiletree-connector')
 });
 
+server.route({
+  method: 'GET',
+  path: '/refurl/api/key',
+  handler: (request, reply) => reply({ key: generateKey() }),
+});
+
 // Management pages
 server.route({
   method: 'GET',
@@ -70,7 +77,7 @@ server.route({
   path: '/refurl/create',
   handler: (request, reply) => {
     reply.view('create', {
-      hash: 'hash',
+      key: generateKey(),
       baseURL: config.baseURL,
     });
   }

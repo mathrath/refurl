@@ -11,6 +11,7 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "bootstrap-datepicker": "^1.7.1",
+    "chance": "^1.0.10",
     "clipboard-button": "^1.2.0",
     "filesize": "^3.5.10",
     "get-folder-size": "^1.0.0",
