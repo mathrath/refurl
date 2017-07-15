@@ -16,13 +16,13 @@ function init(){
   var key = "{{key}}";
   var isDir = {{isDir}};
 
+  $("#size").text("");
+  getSize(key, null);
+
   if (isDir){
     $("#filelist-container").show();
-    $("#download-button").addClass("disabled");
     $("#download-button").attr("href", "#");
-    $("#button-text").text("Select a file...");
-    $("#size").text("");
-
+    $("#button-text").text("Download all");
 
     $("#filelist").fileTree({
       script: 'refurl/api/jqueryfiletree-connector',
@@ -36,18 +36,15 @@ function init(){
 
       const button = $('#download-button');
       button.attr('href', `{{key}}/download?subpath=${data.rel}`);
-      button.removeClass("disabled");
       $("#button-text").text("Download");
       getSize("{{key}}", data.rel);
     });
   }
-  else {
-    getSize(key, null);
-  }
 }
 
 function getSize(key, subpath){
-  const sizeURL = `${key}/filesize?subpath=${subpath}`;
+  var sizeURL = `${key}/filesize`;
+  if (subpath) sizeURL += `?subpath=${subpath}`;
 
   // TODO maybe show a spinner or something?
 
