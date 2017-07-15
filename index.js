@@ -5,6 +5,7 @@ const hapi = require('hapi');
 const config = require('./lib/config');
 const links = require('./lib/links');
 const download = require('./lib/download');
+const filesize = require('./lib/filesize');
 
 const server = new hapi.Server();
 server.connection({
@@ -85,6 +86,12 @@ server.route({
   method: 'GET',
   path: '/{key}/download',
   handler: download.downloadHandler,
+});
+
+server.route({
+  method: 'GET',
+  path: '/{key}/filesize',
+  handler: filesize.filesizeHandler,
 });
 
 // Set up components

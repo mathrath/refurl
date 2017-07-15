@@ -12,6 +12,8 @@
     "bootstrap": "^3.3.7",
     "bootstrap-datepicker": "^1.7.1",
     "clipboard-button": "^1.2.0",
+    "filesize": "^3.5.10",
+    "get-folder-size": "^1.0.0",
     "handlebars": "^4.0.10",
     "hapi": "^16.4.3",
     "inert": "^4.2.0",

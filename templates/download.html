@@ -47,14 +47,14 @@ function init(){
 }
 
 function getSize(key, subpath){
-  var sizeurl = 'refurl/api/filesize?key=' + key;
-  if (subpath != null) sizeurl += '&subpath=' + subpath;
+  const sizeURL = `${key}/filesize?subpath=${subpath}`;
+
+  // TODO maybe show a spinner or something?
 
   $.ajax({
-    url: sizeurl,
+    url: sizeURL,
     type: 'GET',
     success: function(result) {
-      result = JSON.parse(result);
       $("#size").text(" (" + result.size + ")");
     }
   });
