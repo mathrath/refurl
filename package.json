@@ -9,6 +9,7 @@
   "author": "Matt Rathbun",
   "license": "ISC",
   "dependencies": {
+    "archiver": "^2.0.0",
     "bootstrap": "^3.3.7",
     "bootstrap-datepicker": "^1.7.1",
     "chance": "^1.0.10",
