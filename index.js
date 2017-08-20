@@ -1,12 +1,14 @@
 'use strict';
 
 const hapi = require('hapi');
+const basicAuth = require('hapi-auth-basic');
 
 const config = require('./lib/config');
 const links = require('./lib/routes/links');
 const download = require('./lib/routes/download');
 const filesize = require('./lib/routes/filesize');
 const generateKey = require('./lib/utils/generateKey');
+const jqueryfiletreeConnector = require('./lib/routes/jqueryfiletree-connector');
 
 const server = new hapi.Server();
 server.connection({
@@ -27,62 +29,85 @@ server.register(require('vision'), err => {
   });
 });
 
-server.route({
-  method: 'GET',
-  path: '/refurl/api/links',
-  handler: links.getHandler,
+server.register(require('hapi-auth-basic'), (err) => {
+  server.auth.strategy('simple', 'basic', { 
+    validateFunc: (request, username, password, callback) => {
+      if (username != config.auth.user || password != config.auth.password) {
+        return callback(null, false);
+      } else {
+        return callback(null, true, { user: config.auth.user });
+      }
+    },
+  });
+
+  // Management API
+  server.route({
+    method: 'GET',
+    path: '/refurl/api/links',
+    handler: links.getHandler,
+    config: { auth: 'simple' },
+  });
+
+  server.route({
+    method: 'POST',
+    path: '/refurl/api/links',
+    handler: links.postHandler,
+    config: { auth: 'simple' },
+  });
+
+  server.route({
+    method: 'PUT',
+    path: '/refurl/api/links/{id}',
+    handler: links.putHandler,
+    config: { auth: 'simple' },
+  });
+
+  server.route({
+    method: 'DELETE',
+    path: '/refurl/api/links/{id}',
+    handler: links.deleteHandler,
+    config: { auth: 'simple' },
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/refurl/api/key',
+    handler: (request, reply) => reply({ key: generateKey() }),
+    config: { auth: 'simple' },
+  });
+
+  server.route({
+    method: 'POST',
+    path: '/refurl/api/jqueryfiletree-connector',
+    handler: jqueryfiletreeConnector,
+    config: { auth: 'simple' },
+  });
+
+  // Management pages
+  server.route({
+    method: 'GET',
+    path: '/refurl/manage',
+    handler: (request, reply) => {
+      reply.file('./templates/manage.html');
+    },
+    config: { auth: 'simple' },
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/refurl/create',
+    handler: (request, reply) => {
+      reply.view('create', {
+        key: generateKey(),
+        baseURL: config.baseURL,
+      });
+    },
+    config: { auth: 'simple' },
+  });
+
 });
 
-server.route({
-  method: 'POST',
-  path: '/refurl/api/links',
-  handler: links.postHandler,
-});
-
-server.route({
-  method: 'PUT',
-  path: '/refurl/api/links/{id}',
-  handler: links.putHandler,
-});
-
-server.route({
-  method: 'DELETE',
-  path: '/refurl/api/links/{id}',
-  handler: links.deleteHandler,
-});
-
-server.route({
-  method: 'POST',
-  path: '/refurl/api/jqueryfiletree-connector',
-  handler: require('./lib/routes/jqueryfiletree-connector')
-});
-
-server.route({
-  method: 'GET',
-  path: '/refurl/api/key',
-  handler: (request, reply) => reply({ key: generateKey() }),
-});
-
-// Management pages
-server.route({
-  method: 'GET',
-  path: '/refurl/manage',
-  handler: (request, reply) => {
-    reply.file('./templates/manage.html');
-  }
-});
-
-server.route({
-  method: 'GET',
-  path: '/refurl/create',
-  handler: (request, reply) => {
-    reply.view('create', {
-      key: generateKey(),
-      baseURL: config.baseURL,
-    });
-  }
-});
-
+// Endpoints to access a download
 server.route({
   method: 'GET',
   path: '/{key}',
@@ -99,6 +124,12 @@ server.route({
   method: 'GET',
   path: '/{key}/filesize',
   handler: filesize.filesizeHandler,
+});
+
+server.route({
+  method: 'POST',
+  path: '/{key}/jqueryfiletree-connector',
+  handler: jqueryfiletreeConnector,
 });
 
 // Set up components

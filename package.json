@@ -18,6 +18,7 @@
     "get-folder-size": "^1.0.0",
     "handlebars": "^4.0.10",
     "hapi": "^16.4.3",
+    "hapi-auth-basic": "^4.2.0",
     "inert": "^4.2.0",
     "jquery": "^3.2.1",
     "jqueryfiletree": "^2.1.4",

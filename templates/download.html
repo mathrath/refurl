@@ -24,10 +24,9 @@ function init(){
     $("#button-text").text("Download all");
 
     $("#filelist").fileTree({
-      script: 'refurl/api/jqueryfiletree-connector',
+      script: '{{key}}/jqueryfiletree-connector',
       multiFolder: false,
       root: '{{path}}',
-      key: '{{key}}'
     }).on('filetreeclicked filetreeexpand filetreecollapse', (e, data) => {
       // jqueryfiletree doesn't select directories, so I'll do it myself
       $('li.selected').removeClass('selected');
