@@ -3,9 +3,9 @@
 const hapi = require('hapi');
 
 const config = require('./lib/config');
-const links = require('./lib/links');
-const download = require('./lib/download');
-const filesize = require('./lib/filesize');
+const links = require('./lib/routes/links');
+const download = require('./lib/routes/download');
+const filesize = require('./lib/routes/filesize');
 const generateKey = require('./lib/utils/generateKey');
 
 const server = new hapi.Server();
@@ -54,7 +54,7 @@ server.route({
 server.route({
   method: 'POST',
   path: '/refurl/api/jqueryfiletree-connector',
-  handler: require('./lib/jqueryfiletree-connector')
+  handler: require('./lib/routes/jqueryfiletree-connector')
 });
 
 server.route({
