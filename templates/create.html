@@ -43,22 +43,22 @@ function generateKey(){
 function createLink(){
   var key = $("#key-field").val();
 
-  var expireDate;
-  var expireVisits;
+  var expirationDate;
+  var downloadLimit;
   if ($("#visitscheck").prop("checked")){
-    expireVisits = Number($("#numvisits").val());
+    downloadLimit = Number($("#numvisits").val());
   }
 
   if ($("#datecheck").prop("checked")){
-    expireDate = addDays(new Date($("#datepicker").val()), 1).toISOString();
+    expirationDate = addDays(new Date($("#datepicker").val()), 1).toISOString();
   }
 
   var payload = {
     "key" : key,
     "name" : $("#name-field").val(),
     "path" : $("#path-field").val(),
-    "expireDate" : expireDate,
-    "expireVisits" : expireVisits
+    "expirationDate" : expirationDate,
+    "downloadLimit" : downloadLimit
   }
 
   $.post("api/links", payload).done(function(result) {

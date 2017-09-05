@@ -37,15 +37,15 @@ function getRecordHTML(record){
   var result = "";
 
   if (!record.downloadCount) record.downloadCount = 0;
-  if (record.expireVisits) record.downloadCount += "/" + record.expireVisits;
-  var expireDate = "";
-  if (record.expireDate !== null) expireDate = new Date(record.expireDate).toLocaleDateString();
+  if (record.downloadLimit) record.downloadCount += "/" + record.downloadLimit;
+  var expirationDate = "";
+  if (record.expirationDate) expirationDate = new Date(record.expirationDate).toLocaleDateString();
 
   result += "<tr>\n";
   result += "<td>" + record.name + "</td>\n";
   result += "<td><a href='../" + record.key + "'>" + record.key + "</a></td>\n";
   result += "<td>" + record.path + "</td>\n";
-  result += "<td style='text-align:center'>" + expireDate + "</td>\n";
+  result += "<td style='text-align:center'>" + expirationDate + "</td>\n";
   result += `<td style='text-align:center'>${record.downloadCount}</td>\n`;
   result += "<td><button type='button' class='btn btn-xs btn-danger' onclick='deleteLink(\"" + record.id + "\")'>Delete</button></td>\n";
   result += "</tr>\n";
