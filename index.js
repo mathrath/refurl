@@ -10,6 +10,8 @@ const filesize = require('./lib/routes/filesize');
 const generateKey = require('./lib/utils/generateKey');
 const jqueryfiletreeConnector = require('./lib/routes/jqueryfiletree-connector');
 
+const linkSchema = require('./lib/schemas/link');
+
 const server = new hapi.Server();
 server.connection({
   port: process.env.PORT || 8000,
@@ -29,6 +31,15 @@ server.register(require('vision'), err => {
   });
 });
 
+server.register([require('vision'), require('inert'), {
+  register: require('lout'),
+  options: {
+    endpoint: '/refurl/docs',
+  },
+}], function(err) {
+  console.log(err);
+});
+
 server.register(require('hapi-auth-basic'), (err) => {
   server.auth.strategy('simple', 'basic', { 
     validateFunc: (request, username, password, callback) => {
@@ -45,21 +56,45 @@ server.register(require('hapi-auth-basic'), (err) => {
     method: 'GET',
     path: '/refurl/api/links',
     handler: links.getHandler,
-    config: { auth: 'simple' },
+    config: {
+      auth: 'simple',
+      description: 'Get all of the links already created',
+      response: {
+        schema: linkSchema.get,
+      }
+    },
   });
 
   server.route({
     method: 'POST',
     path: '/refurl/api/links',
     handler: links.postHandler,
-    config: { auth: 'simple' },
+    config: {
+      auth: 'simple',
+      description: 'Create a new link',
+      validate: {
+        payload: linkSchema.post,
+      },
+      response: {
+        schema: linkSchema.schema,
+      }
+    },
   });
 
   server.route({
     method: 'PUT',
     path: '/refurl/api/links/{id}',
     handler: links.putHandler,
-    config: { auth: 'simple' },
+    config: {
+      auth: 'simple',
+      description: 'Make changes to an existing link',
+      validate: {
+        payload: linkSchema.put,
+      },
+      response: {
+        schema: linkSchema.schema,
+      }
+    },
   });
 
   server.route({
@@ -140,7 +175,12 @@ server.route({
     directory: {
       path: __dirname + '/node_modules/bootstrap/dist'
     }
-  }
+  },
+  config: {
+    plugins: {
+      lout: false,
+    },
+  },
 });
 
 server.route({
@@ -150,7 +190,12 @@ server.route({
     directory: {
       path: __dirname + '/node_modules/jquery/dist'
     }
-  }
+  },
+  config: {
+    plugins: {
+      lout: false,
+    },
+  },
 });
 
 server.route({
@@ -160,7 +205,12 @@ server.route({
     directory: {
       path: __dirname + '/node_modules/jqueryfiletree/dist'
     }
-  }
+  },
+  config: {
+    plugins: {
+      lout: false,
+    },
+  },
 });
 
 server.route({
@@ -170,7 +220,12 @@ server.route({
     file: {
       path: __dirname + '/node_modules/clipboard-button/clipboard-button.js'
     }
-  }
+  },
+  config: {
+    plugins: {
+      lout: false,
+    },
+  },
 });
 
 server.route({
@@ -180,7 +235,12 @@ server.route({
     directory: {
       path: __dirname + '/node_modules/bootstrap-datepicker/dist'
     }
-  }
+  },
+  config: {
+    plugins: {
+      lout: false,
+    },
+  },
 });
 
 
