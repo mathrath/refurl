@@ -37,7 +37,9 @@ server.register([require('vision'), require('inert'), {
     endpoint: '/refurl/docs',
   },
 }], function(err) {
-  console.log(err);
+  if (err) {
+    console.log(err);
+  }
 });
 
 server.register(require('hapi-auth-basic'), (err) => {
