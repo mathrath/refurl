@@ -14,7 +14,7 @@ const linkSchema = require('./lib/schemas/link');
 
 const server = new hapi.Server();
 server.connection({
-  port: process.env.PORT || 8000,
+  port: process.env.PORT || 8080,
 });
 
 server.register(require('inert'));
