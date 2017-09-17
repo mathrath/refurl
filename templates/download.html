@@ -26,7 +26,7 @@ function init(){
     $("#filelist").fileTree({
       script: '{{key}}/jqueryfiletree-connector',
       multiFolder: false,
-      root: '{{path}}',
+      root: '',
     }).on('filetreeclicked filetreeexpand filetreecollapse', (e, data) => {
       // jqueryfiletree doesn't select directories, so I'll do it myself
       $('li.selected').removeClass('selected');
