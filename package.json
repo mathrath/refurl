@@ -42,7 +42,9 @@
       "sourceType": "script"
     },
     "rules": {
-      "no-multi-spaces": [2, { "ignoreEOLComments": true}]
+      "no-multi-spaces": ["error", { "ignoreEOLComments": true }],
+      "no-param-reassign": ["error", { "props": false }],
+      "no-else-return": ["warn"]
     }
   }
 }
