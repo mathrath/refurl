@@ -2,6 +2,11 @@
 
 const hapi = require('hapi');
 const basicAuth = require('hapi-auth-basic');
+const handlebars = require('handlebars');
+const vision = require('vision');
+const inert = require('inert');
+const lout = require('lout');
+const path = require('path');
 
 const config = require('./lib/config');
 const links = require('./lib/routes/links');
@@ -19,37 +24,37 @@ server.connection({
 
 server.register(require('inert'));
 
-server.register(require('vision'), err => {
+server.register(require('vision'), (err) => {
   if (err) throw err;
 
   server.views({
     engines: {
-      html: require('handlebars')
+      html: handlebars,
     },
     relativeTo: __dirname,
-    path: 'templates'
+    path: 'templates',
   });
 });
 
-server.register([require('vision'), require('inert'), {
-  register: require('lout'),
+server.register([vision, inert, {
+  register: lout,
   options: {
     endpoint: '/refurl/docs',
   },
-}], function(err) {
+}], (err) => {
   if (err) {
     console.log(err);
   }
 });
 
-server.register(require('hapi-auth-basic'), (err) => {
-  server.auth.strategy('simple', 'basic', { 
+server.register(basicAuth, () => {
+  server.auth.strategy('simple', 'basic', {
     validateFunc: (request, username, password, callback) => {
-      if (username != config.auth.user || password != config.auth.password) {
+      if (username !== config.auth.user || password !== config.auth.password) {
         return callback(null, false);
-      } else {
-        return callback(null, true, { user: config.auth.user });
       }
+
+      return callback(null, true, { user: config.auth.user });
     },
   });
 
@@ -63,7 +68,7 @@ server.register(require('hapi-auth-basic'), (err) => {
       description: 'Get all of the links already created',
       response: {
         schema: linkSchema.get,
-      }
+      },
     },
   });
 
@@ -79,7 +84,7 @@ server.register(require('hapi-auth-basic'), (err) => {
       },
       response: {
         schema: linkSchema.schema,
-      }
+      },
     },
   });
 
@@ -95,7 +100,7 @@ server.register(require('hapi-auth-basic'), (err) => {
       },
       response: {
         schema: linkSchema.schema,
-      }
+      },
     },
   });
 
@@ -141,7 +146,6 @@ server.register(require('hapi-auth-basic'), (err) => {
     },
     config: { auth: 'simple' },
   });
-
 });
 
 // Endpoints to access a download
@@ -175,8 +179,8 @@ server.route({
   path: '/refurl/components/bootstrap/{param*}',
   handler: {
     directory: {
-      path: __dirname + '/node_modules/bootstrap/dist'
-    }
+      path: path.join(__dirname, 'node_modules', 'bootstrap', 'dist'),
+    },
   },
   config: {
     plugins: {
@@ -190,8 +194,8 @@ server.route({
   path: '/refurl/components/jquery/{param*}',
   handler: {
     directory: {
-      path: __dirname + '/node_modules/jquery/dist'
-    }
+      path: path.join(__dirname, 'node_modules', 'jquery', 'dist'),
+    },
   },
   config: {
     plugins: {
@@ -205,8 +209,8 @@ server.route({
   path: '/refurl/components/jqueryfiletree/{param*}',
   handler: {
     directory: {
-      path: __dirname + '/node_modules/jqueryfiletree/dist'
-    }
+      path: path.join(__dirname, 'node_modules', 'jqueryfiletree', 'dist'),
+    },
   },
   config: {
     plugins: {
@@ -220,8 +224,8 @@ server.route({
   path: '/refurl/components/clipboard-button/{param*}',
   handler: {
     file: {
-      path: __dirname + '/node_modules/clipboard-button/clipboard-button.js'
-    }
+      path: path.join(__dirname, 'node_modules', 'clipboard-button', 'clipboard-button.js'),
+    },
   },
   config: {
     plugins: {
@@ -235,8 +239,8 @@ server.route({
   path: '/refurl/components/bootstrap-datepicker/{param*}',
   handler: {
     directory: {
-      path: __dirname + '/node_modules/bootstrap-datepicker/dist'
-    }
+      path: path.join(__dirname, 'node_modules', 'bootstrap-datepicker', 'dist'),
+    },
   },
   config: {
     plugins: {
@@ -246,7 +250,7 @@ server.route({
 });
 
 
-server.start(err => {
+server.start((err) => {
   if (err) {
     throw err;
   }
